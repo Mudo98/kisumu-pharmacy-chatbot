@@ -1,33 +1,43 @@
-# Nairobi Real Estate Inquiry Extractor
+# Kisumu Pharmacy Staff Assistant (`Kisumubot.py`)
 
-A Python script that uses Google's Gemini API (`gemini-3.8-flash`) to parse unstructured client messages into clean, structured JSON dictionaries for a Nairobi real estate agency.
+A command-line AI chatbot built with Python and the Google GenAI SDK (`gemini-3.5-flash-lite`) to help staff at **Kisumu Pharmacy** answer customer phone inquiries consistently and accurately.
 
-## What the Script Extracts & Why Each Field Matters
+## Features
+- **Consistent Pharmacy Info:** Configured via system prompt with Kisumu Pharmacy's opening hours (**Mon–Sat: 8:00 AM – 8:00 PM**, **Sun: 10:00 AM – 4:00 PM**) and core services.
+- **Multi-Turn Conversation Memory:** Remembers context across follow-up questions (e.g., knowing *"How long will it take?"* refers to a prescription mentioned earlier in the chat).
+- **Resilient Error Handling:** Includes automatic retry logic for temporary API server spikes.
 
-The script extracts five core fields from incoming customer inquiries, assigning `null` (`None` in Python) when a detail is omitted:
+## Pharmacy Services Covered
+1. **Prescription Dispensing:** Processing times (15–20 minutes for new prescriptions).
+2. **Repeat Prescriptions:** Required documentation (valid national ID/passport plus previous prescription slip or labeled medicine packaging).
+3. **Drug Stock & Availability Inquiries:** Immediate pickup vs. 24-hour special orders.
+4. **Over-the-Counter (OTC) & Pharmacist Consultations:** Free walk-in advice.
+5. **Blood Pressure & Blood Sugar Screening:** Daily walk-in health checks.
+6. **Local Delivery Service:** Same-day delivery within Kisumu town for orders placed before 5:00 PM.
 
-| Field | Example Output | Why It Matters |
-| :--- | :--- | :--- |
-| **`property_type`** | `"house"`, `"bedsitter"`, `"plot or townhouse"` | Allows agents to immediately filter available inventory by structure category rather than manually reading every inquiry. |
-| **`bedrooms`** | `3`, `0`, `null` | Essential for matching family size and layout requirements; automatically normalizes local terms like `"bedsitter"` to `0`. |
-| **`location`** | `"Kileleshwa"`, `"Westlands"`, `"Syokimau"` | Enables territory-based routing so leads go directly to the agent covering that specific Nairobi neighborhood or suburb. |
-| **`budget_kes`** | `80000`, `20000`, `null` | Converts shorthand text (e.g., `"80k"`, `"15M"`) into pure integers in Kenyan Shillings (KES) so leads can be sorted or filtered numerically in spreadsheets and databases. |
-| **`rental_or_sale`** | `"rental"`, `"sale"` | Separates short-term leasing inquiries from long-term property purchase leads, which require different workflows, contracts, and agents. |
+## Setup & Installation
 
-## Setup & Usage
+1. **Clone the repository**
+   ```bash
+   git clone <your-repository-url>
+   cd <repository-folder>
+   ```
 
-1. **Install dependencies:**
+2. **Install dependencies**
    ```bash
    pip install google-genai python-dotenv
    ```
 
-2. **Configure your API key:**
-   Create a `.env` file in the root directory and add your Google AI Studio key:
+3. **Set up your API key**
+   Create a `.env` file in the project folder and add your Gemini API key:
    ```env
-   GEMINI_API_KEY=your_api_key_here
+   GEMINI_API_KEY=your_gemini_api_key_here
    ```
 
-3. **Run the script:**
-   ```bash
-   python day12.py
-   ```
+## Usage
+
+Run the assistant in your terminal:
+```bash
+python Kisumubot.py
+```
+Type `exit` to end the session.
